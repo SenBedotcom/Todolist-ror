@@ -1,0 +1,24 @@
+<%= turbo_stream.prepend "tasks_list" do %>
+  <%= render @task %>
+<% end %>
+
+<%= turbo_stream.replace "new_task_form" do %>
+  <%= render "form", task: Task.new %>
+<% end %>
+
+<%= turbo_stream.replace "stats_bar" do %>
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-number"><%= Task.count %></span>
+      <span class="stat-label">Total Tasks</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number"><%= Task.where(completed: true).count %></span>
+      <span class="stat-label">Completed</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number"><%= Task.where(completed: false).count %></span>
+      <span class="stat-label">Pending</span>
+    </div>
+  </div>
+<% end %>

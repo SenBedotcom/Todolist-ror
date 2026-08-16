@@ -1,0 +1,32 @@
+<%= turbo_frame_tag dom_id(task) do %>
+  <div class="task-item <%= 'completed' if task.completed %>">
+    <div class="task-checkbox">
+      <%= button_to toggle_task_path(task), method: :patch, form: { data: { turbo_frame: "_top" } }, class: "checkbox-btn" do %>
+        <span class="checkbox <%= 'checked' if task.completed %>">
+          <%= '✓' if task.completed %>
+        </span>
+      <% end %>
+    </div>
+    
+    <div class="task-content">
+      <h3 class="task-title"><%= task.title %></h3>
+      <p class="task-date">
+        <span class="date-icon">🕒</span>
+        Created <%= time_ago_in_words(task.created_at) %> ago
+      </p>
+    </div>
+    
+    <div class="task-actions">
+      <div class="task-status">
+        <% if task.completed %>
+          <span class="badge badge-success">✓ Done</span>
+        <% else %>
+          <span class="badge badge-pending">⏳ Pending</span>
+        <% end %>
+      </div>
+      <%= button_to task_path(task), method: :delete, form: { data: { turbo_confirm: "Are you sure?" } }, class: "btn-delete" do %>
+        <span class="delete-icon">🗑️</span>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,28 @@
+<%= turbo_stream.remove dom_id(@task) %>
+
+<%= turbo_stream.replace "stats_bar" do %>
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-number"><%= Task.count %></span>
+      <span class="stat-label">Total Tasks</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number"><%= Task.where(completed: true).count %></span>
+      <span class="stat-label">Completed</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number"><%= Task.where(completed: false).count %></span>
+      <span class="stat-label">Pending</span>
+    </div>
+  </div>
+<% end %>
+
+<% if Task.count == 0 %>
+  <%= turbo_stream.replace "tasks_list" do %>
+    <div class="empty-state">
+      <div class="empty-icon">📋</div>
+      <h3>No tasks yet</h3>
+      <p>Add your first task to get started!</p>
+    </div>
+  <% end %>
+<% end %>

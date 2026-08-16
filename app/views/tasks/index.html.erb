@@ -1,0 +1,45 @@
+<div class="todo-container">
+  <div class="todo-header">
+    <h1>📝 Todo List</h1>
+    <p class="subtitle">Keep track of your daily tasks</p>
+  </div>
+
+  <%= turbo_frame_tag "stats_bar" do %>
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-number"><%= @tasks.count %></span>
+        <span class="stat-label">Total Tasks</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number"><%= @tasks.where(completed: true).count %></span>
+        <span class="stat-label">Completed</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number"><%= @tasks.where(completed: false).count %></span>
+        <span class="stat-label">Pending</span>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="add-task-section">
+    <%= turbo_frame_tag "new_task_form" do %>
+      <%= render "form", task: @task %>
+    <% end %>
+  </div>
+
+  <div class="tasks-section">
+    <%= turbo_frame_tag "tasks_list" do %>
+      <% if @tasks.empty? %>
+        <div class="empty-state">
+          <div class="empty-icon">📋</div>
+          <h3>No tasks yet</h3>
+          <p>Add your first task to get started!</p>
+        </div>
+      <% else %>
+        <div class="tasks-list">
+          <%= render @tasks.order(created_at: :desc) %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
